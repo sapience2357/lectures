@@ -1,1 +1,10 @@
-test
+# ssh_config 
+
+- [path]\ssh_config
+```
+Host SDAcademy 
+  HostName  52.79.239.149   # 접속할 컨테이너의 외부아이피
+  Port      51242           # 접속할 컨테이너의 외부포트번호
+  User      root            # 접속할 컨테이너의 로그인 아이디(기본사용자)
+```
+
