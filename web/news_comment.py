@@ -6,13 +6,18 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.options import Options
 
 from fake_useragent import UserAgent
-
 import time
 
+# 브라우저의 옵션을 사용하는 방법
+options = Options()
+options.add_argument("--headless")
+browser = webdriver.Firefox(executable_path="./geckodriver", options=options)
+
 headers = {
-    'User-Agent': UserAgent().chrome
+    'User-Agent': UserAgent().firefox 
 }
 
 response = req.get(
@@ -26,23 +31,14 @@ urls = soupDocument.select(
     'div.type1 ul.list_vertical a:nth-child(1)'
 )
 
-#for url in urls:
-#    print(url['href'])
-
-# 뉴스 본문
-
-chrome_driver = 'D:\IJH\chromedriver.exe'
-browser = webdriver.Chrome(chrome_driver)
-
-
 for url in urls:
     browser.get(url['href'])
 
     # comment_list 요소가 로딩 될 때까지 대기
 
-    # WebDriverWait(browser, 10).\
-    # until(EC.presence_of_element_located(
-    #    (By.CSS_SELECTOR, '.comment_list')))
+    WebDriverWait(browser, 10).\
+    until(EC.presence_of_element_located(
+        (By.CSS_SELECTOR, '.comment_list')))
 
     src = browser.page_source
 
@@ -54,15 +50,4 @@ for url in urls:
     for comment in comments:
         print(comment.get_text())
 
-    time.sleep(300)
-
-
-
-
-
-
-
-
-
-
-
+    time.sleep(10)
